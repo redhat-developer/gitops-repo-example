@@ -1,0 +1,5 @@
+bases:
+- ../services/bus
+- ../services/redis
+- ../services/bus1
+- ../../../env/base

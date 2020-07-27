@@ -1,0 +1,4 @@
+bases:
+- ../services/truck
+- ../services/truck-frontend
+- ../../../env/base

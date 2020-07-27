@@ -1,0 +1,5 @@
+bases:
+- ../services/car
+- ../services/cycle
+- ../services/rdisc-cli
+- ../../../env/base
