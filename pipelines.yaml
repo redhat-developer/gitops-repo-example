@@ -85,4 +85,4 @@ environments:
       bindings:
       - github-push-binding
       template: app-ci-template
-gitops_url: https://github.com/ishitasequeira/gitops166.git
+gitops_url: https://github.com/rhd-gitops-example/gitops.git
