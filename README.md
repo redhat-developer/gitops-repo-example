@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The given mock repo is an indication of the capability of the GitOps tool, the given repo structure can be created by just running a couple of day-1 and day-2 commands. A high level structure of the GitOps repo constitutes the config, environments folder and the pipelines.yaml file. 
+The given mock repo is an indication of the capability of the GitOps tool, the given repo structure constituting the entire GitOps configuration can be created by running a couple of day-1 and day-2 commands. A high level structure of the GitOps repo constitutes the config, environments folder and the pipelines.yaml file. 
 
 ### Pipelines.yaml
 
@@ -98,7 +98,7 @@ gitops_url: https://github.com/rhd-gitops-example/gitops.git
 ```
 The pipelines.yaml is representative of the current directory structure, it throws light on the essential bits of the GitOps repo. The current GitOps repo structure can be broken down based on the pipelines.yaml file.
 
-### High level directory structure.
+### High level directory structure
 
 ```
 .
@@ -144,13 +144,13 @@ The config directory refers to the special environments which contain the config
     │   
     └── demo-cicd
 ```
-* #### argocd sub-folder
+* #### Argocd sub-folder
 
- ArgoCD is used to perform Continuous Delivery of Applications. When an Application is created in the target Environment an ArgoCD application is also created and kept in the ArgoCD Environment. The user is reponsible for creating deployment.yaml in the "config" folder for the application. ArgoCD will deploy the application based on the user-provided deployment specification and re-deploy it automatically when the specification is changed. The argocd directory contains all the necessary resources to perform continous delivery to ensure that the live application state on the cluster is in sync with the target state on the cluster. The pipelines.yaml holds information about the name of the namespace in which the argocd operator as well the argocd resources will be applied.
+  ArgoCD is used to perform Continuous Delivery of Applications. When an Application is created in the target Environment an ArgoCD application is also created and kept in the ArgoCD Environment. The user is reponsible for creating deployment.yaml in the "config" folder for the application. ArgoCD will deploy the application based on the user-provided deployment specification and re-deploy it automatically when the specification is changed. The argocd directory contains all the necessary resources to perform continous delivery to ensure that the live application state on the cluster is in sync with the target state on the cluster. The pipelines.yaml holds information about the name of the namespace in which the argocd operator as well the argocd resources will be applied.
 
-* #### cicd sub-folder
+* #### Cicd sub-folder
 
- The CI/CD Environment is a special Environment that contains CI/CD pipelines. These pipelines respond to changes in GitOps configuration repository and Application/Service soruce repositories. They are responisble for keeping the resources in the cluster in-sync with the configurations in Git and re-build/re-deploy application/service images. The pipelines.yaml holds information to the namespace in which the tekton pipelines have been deployed.
+  The CI/CD Environment is a special Environment that contains CI/CD pipelines. These pipelines respond to changes in GitOps configuration repository and Application/Service soruce repositories. They are responisble for keeping the resources in the cluster in-sync with the configurations in Git and re-build/re-deploy application/service images. The pipelines.yaml holds information to the namespace in which the tekton pipelines have been deployed.
 
 ### Environments folder
 
