@@ -190,7 +190,7 @@ Our current pipelines model corresponds to the structure defined in the pipeline
 This repository cannot be applied to the cluster since the sealed secrets are encrypted with accordance to the cluster at the time of creation of the repository.
 To create a GitOps repository that can be applied to the cluster, kindly run the commands showcased below.
 
-## Commands used to build mock repo
+## Commands used to build sample repo
 The following repo is build by running the following 3 commands:
 
 ### Day-1 operation
