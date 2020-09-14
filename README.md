@@ -4,6 +4,10 @@
 
 The given sample GitOps repo is an indication of the capability of the GitOps tool, the given repo structure constituting the entire GitOps configuration can be created by running a couple of day-1 and day-2 commands. A high level structure of the GitOps repo constitutes the config, environments folder and the pipelines.yaml file. 
 
+#### Important Note:
+
+This repository cannot be applied to the cluster since the sealed secrets are encrypted with the private key in the cluster at the time the repository was created.
+
 ### Pipelines.yaml
 
 ```yaml
@@ -144,13 +148,9 @@ The config directory refers to the special environments which contain the config
     │   
     └── demo-cicd
 ```
-* #### Argocd sub-folder
+* #### [Argocd sub-folder](https://github.com/rhd-gitops-example/docs/tree/master/model#argocd-environment)
 
-  ArgoCD is used to perform Continuous Deployment of Applications. When an Application is created in the target Environment an ArgoCD application is also created and kept in the ArgoCD Environment. The user is reponsible for creating deployment.yaml in the "config" folder for the application. ArgoCD will deploy the application based on the user-provided deployment specification and re-deploy it automatically when the specification is changed. The argocd directory contains all the necessary resources to perform continous deployment to ensure that the live application state on the cluster is in sync with the target state on the cluster. The pipelines.yaml holds information about the name of the namespace in which the argocd operator as well the argocd resources will be applied.
-
-* #### Cicd sub-folder
-
-  The CI/CD Environment is a special Environment that contains CI/CD pipelines. These pipelines respond to changes in GitOps configuration repository and Application/Service source repositories. They are responsible for keeping the resources in the cluster in-sync with the configurations in Git and re-build/re-deploy application/service images. The pipelines.yaml holds information on the namespace in which the tekton pipelines have been deployed.
+* #### [Cicd sub-folder](https://github.com/rhd-gitops-example/docs/tree/master/model#cicd-environment)
 
 ### Environments folder
 
@@ -171,27 +171,14 @@ Within a Pipelines Model, there are many Environments which hold Applications an
 
 It comprises of :
 
-* #### (Plain Old) Environment:
+* #### [Environment](https://github.com/rhd-gitops-example/docs/tree/master/model#plain-old-enviroment)
 
-  Within a Pipelines Model, there are many Environments which hold Applications and Services. Each Environment has its own namespace.
+* #### [Application](https://github.com/rhd-gitops-example/docs/tree/master/model#application)
 
-* #### Application:
- 
-  An Application is a logical grouping of Services. It contains references to Services. When an Application is deployed, all referenced Services are deployed. Two Applications can reference to a same Service. Each Application can have specific customization to the Service it references/deploys. A Service is not intendedto be deployed by itself (without an Application).
-
-* #### Service:
-
-  A Service can have a source repository and an image repository. Services are unique within an Environment. However, no two Services can share a same source Git reposiotry even though they belong to different Environments. In the pipelines.yaml file, the services holds information to the type of trigger binding(extracts useful information from payloads) and trigger template(holds information essential for pipeline runs), the sealed secret name and the namespace in which it is present.
-
-Our current pipelines model corresponds to the structure defined in the pipelines.yaml file. We can have as many environments, an environment folder inturn comprises of applications. An application has no real significance without services,hence the service are located within the application folder. A service contains the necessary deployment and config files, services are unique to an environment.
-
-## Disclaimer
-
-This repository cannot be applied to the cluster since the sealed secrets are encrypted with accordance to the cluster at the time of creation of the repository.
-To create a GitOps repository that can be applied to the cluster, kindly run the commands showcased below.
+* #### [Service](https://github.com/rhd-gitops-example/docs/tree/master/model#service)
 
 ## Commands used to build sample repo
-The following repo is build by running the following 3 commands:
+To create a GitOps repository that can be applied to the cluster, kindly run the commands showcased below. The following repo is build by running the following 3 commands:
 
 ### Day-1 operation
 ```shell
