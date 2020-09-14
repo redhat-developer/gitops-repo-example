@@ -100,7 +100,7 @@ environments:
       template: app-ci-template
 gitops_url: https://github.com/rhd-gitops-example/gitops.git
 ```
-The pipelines.yaml is a representatioon of the current directory structure, it throws light on the essential bits of the GitOps repo. The current GitOps repo structure can be broken down based on the pipelines.yaml file.
+The pipelines.yaml is a representation of the current directory structure, it throws light on the essential bits of the GitOps repo. The current GitOps repo structure can be broken down based on the pipelines.yaml file.
 
 ### High level directory structure
 
