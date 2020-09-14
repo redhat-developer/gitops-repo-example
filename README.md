@@ -140,7 +140,7 @@ The entire structure can be explained by taking a look at the pipelines.yaml fil
 
 ### Config folder
 
-The config directory refers to the special environments which contain the configuraion manifests for the argocd and cicd environments.
+The config directory refers to the special environments which contain the configuraion manifests for the ArgoCd and CI/CD environments.
 
 ```
 ├── config
@@ -148,13 +148,13 @@ The config directory refers to the special environments which contain the config
     │   
     └── demo-cicd
 ```
-* #### [Argocd sub-folder](https://github.com/rhd-gitops-example/docs/tree/master/model#argocd-environment)
+* #### [ArgoCd sub-folder](https://github.com/rhd-gitops-example/docs/tree/master/model#argocd-environment)
 
-* #### [Cicd sub-folder](https://github.com/rhd-gitops-example/docs/tree/master/model#cicd-environment)
+* #### [CI/CD sub-folder](https://github.com/rhd-gitops-example/docs/tree/master/model#cicd-environment)
 
 ### Environments folder
 
-Within a Pipelines Model, there are many Environments which hold Applications and Services. Each Environment has its own namespace/project as defined in openshift. The sample environments directory has the structure listed below.
+Within a pipelines model, there are many environments which hold applications and services. Each environment has its own namespace/project as defined in openshift. The sample environments directory has the structure listed below.
 
 ```
 ├── environments
