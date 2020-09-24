@@ -182,7 +182,7 @@ To create a GitOps repository that can be applied to the cluster, kindly run the
 
 ### Day-1 operation
 ```shell
-$ odo pipelines bootstrap --service-repo-url https://github.com/ishitasequeira/taxi.git \
+$ kam bootstrap --service-repo-url https://github.com/ishitasequeira/taxi.git \
   --dockercfgjson ~/Downloads/isequeir-robot-auth.json \
   --gitops-repo-url https://github.com/ishitasequeira/gitops166.git \
   --image-repo quay.io/isequeir/taxi --prefix demo --output ~/go/src/github.com/openshift/gitops \
@@ -190,13 +190,13 @@ $ odo pipelines bootstrap --service-repo-url https://github.com/ishitasequeira/t
 ```
 ### Day-2 operation
 ```shell
-$ odo pipelines environment add   --env-name prod \
-  --pipelines-file  ~/go/src/github.com/openshift/gitops/pipelines.yaml
+$ kam environment add   --env-name prod \
+  --pipelines-folder  ~/go/src/github.com/openshift/gitops/pipelines.yaml
 ```
 
 ```shell
-$ odo pipelines service add  --app-name bus-app --env-name prod \
-  --pipelines-file ~/go/src/github.com/openshift/gitops \
+$ kam service add  --app-name bus-app --env-name prod \
+  --pipelines-folder ~/go/src/github.com/openshift/gitops \
   --service-name car --sealed-secrets-ns kube-system \
   --sealed-secrets-svc sealed-secrets-controller \
   --git-repo-url https://github.com/ishitasequeira/car.git 
