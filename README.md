@@ -191,12 +191,12 @@ $ kam bootstrap --service-repo-url https://github.com/ishitasequeira/taxi.git \
 ### Day-2 operation
 ```shell
 $ kam environment add   --env-name prod \
-  --pipelines-file  ~/go/src/github.com/openshift/gitops/pipelines.yaml
+  --pipelines-folder  ~/go/src/github.com/openshift/gitops/pipelines.yaml
 ```
 
 ```shell
 $ kam service add  --app-name bus-app --env-name prod \
-  --pipelines-file ~/go/src/github.com/openshift/gitops \
+  --pipelines-folder ~/go/src/github.com/openshift/gitops \
   --service-name car --sealed-secrets-ns kube-system \
   --sealed-secrets-svc sealed-secrets-controller \
   --git-repo-url https://github.com/ishitasequeira/car.git 
