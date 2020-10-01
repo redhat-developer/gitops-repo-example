@@ -54,14 +54,14 @@ environments:
       template: app-ci-template
 - name: stage
 gitops_url: https://github.com/wtam2018/gitops.git
-version: 1```
+version: 1
+```
 
 The pipelines.yaml is a representation of the current directory structure, it throws light on the essential bits of the GitOps repo. The current GitOps repo structure can be broken down based on the pipelines.yaml file.
 
 ### High level directory structure
 
 ```
-.
 ├── config
 │   ├── argocd
 │   │   ├── argo-app.yaml
