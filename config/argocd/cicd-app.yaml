@@ -6,7 +6,7 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    namespace: demo-cicd
+    namespace: cicd
     server: https://kubernetes.default.svc
   ignoreDifferences:
   - group: argoproj.io
@@ -29,10 +29,14 @@ spec:
     jsonPointers:
     - /spec/host
     kind: Route
+  - group: bitnami.com
+    jsonPointers:
+    - /status
+    kind: SealedSecret
   project: default
   source:
-    path: config/demo-cicd/overlays
-    repoURL: https://github.com/ishitasequeira/gitops166.git
+    path: config/cicd/overlays
+    repoURL: https://github.com/wtam2018/gitops.git
   syncPolicy:
     automated:
       prune: true

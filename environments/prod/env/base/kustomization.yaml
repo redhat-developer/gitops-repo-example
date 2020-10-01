@@ -1,3 +1,0 @@
-resources:
-- prod-environment.yaml
-- prod-rolebinding.yaml

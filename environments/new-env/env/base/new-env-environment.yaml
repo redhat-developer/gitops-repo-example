@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    app.openshift.io/vcs-uri: https://github.com/wtam2018/gitops.git
+  creationTimestamp: null
+  name: new-env
+spec: {}
+status: {}

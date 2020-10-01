@@ -2,7 +2,5 @@ resources:
 - argo-app.yaml
 - argocd.yaml
 - cicd-app.yaml
-- demo-dev-app-taxi-app.yaml
-- demo-stage-bus-app-app.yaml
-- demo-stage-truck-app-app.yaml
-- prod-bus-app-app.yaml
+- dev-app-taxi-app.yaml
+- new-env-app-bus-app.yaml

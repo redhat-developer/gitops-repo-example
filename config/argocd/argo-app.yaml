@@ -29,10 +29,14 @@ spec:
     jsonPointers:
     - /spec/host
     kind: Route
+  - group: bitnami.com
+    jsonPointers:
+    - /status
+    kind: SealedSecret
   project: default
   source:
     path: config/argocd
-    repoURL: https://github.com/ishitasequeira/gitops166.git
+    repoURL: https://github.com/wtam2018/gitops.git
   syncPolicy:
     automated:
       prune: true

@@ -2,7 +2,7 @@ config:
   argocd:
     namespace: argocd
   pipelines:
-    name: demo-cicd
+    name: cicd
 environments:
 - apps:
   - name: app-taxi
@@ -11,78 +11,34 @@ environments:
       pipelines:
         integration:
           bindings:
-          - demo-dev-app-taxi-taxi-binding
+          - dev-app-taxi-taxi-binding
           - github-push-binding
-      source_url: https://github.com/ishitasequeira/taxi.git
+      source_url: https://github.com/wtam2018/taxi.git
       webhook:
         secret:
-          name: webhook-secret-demo-dev-taxi
-          namespace: demo-cicd
-  name: demo-dev
+          name: webhook-secret-dev-taxi
+          namespace: cicd
+  name: dev
   pipelines:
     integration:
       bindings:
       - github-push-binding
       template: app-ci-template
 - apps:
-  - name: bus-app
+  - name: app-bus
     services:
     - name: bus
-      source_url: https://github.com/ishitasequeira/bus.git
+      source_url: http://github.com/wtam2018/bus.git
       webhook:
         secret:
-          name: webhook-secret-demo-stage-bus
-          namespace: demo-cicd
-    - name: redis
-      webhook:
-        secret:
-          name: webhook-secret-demo-stage-redis
-          namespace: demo-cicd
-    - name: bus1
-      source_url: https://github.com/ishitasequeira/bus1.git
-      webhook:
-        secret:
-          name: webhook-secret-demo-stage-bus1
-          namespace: demo-cicd
-  - name: truck-app
-    services:
-    - name: truck
-      source_url: https://github.com/ishitasequeira/truck.git
-      webhook:
-        secret:
-          name: webhook-secret-demo-stage-truck
-          namespace: demo-cicd
-    - name: truck-frontend
-      source_url: https://github.com/ishitasequeira/truck-frontend.git
-      webhook:
-        secret:
-          name: webhook-secret-demo-stage-truck-frontend
-          namespace: demo-cicd
-  name: demo-stage
-- apps:
-  - name: bus-app
-    services:
-    - name: car
-      source_url: https://github.com/ishitasequeira/car.git
-      webhook:
-        secret:
-          name: webhook-secret-prod-car
-          namespace: demo-cicd
-    - name: cycle
-      source_url: https://github.com/ishitasequeira/cycle.git
-      webhook:
-        secret:
-          name: webhook-secret-prod-cycle
-          namespace: demo-cicd
-    - name: rdisc-cli
-      webhook:
-        secret:
-          name: webhook-secret-prod-rdisc-cli
-          namespace: demo-cicd
-  name: prod
+          name: webhook-secret-new-env-bus
+          namespace: cicd
+  name: new-env
   pipelines:
     integration:
       bindings:
       - github-push-binding
       template: app-ci-template
-gitops_url: https://github.com/rhd-gitops-example/gitops.git
+- name: stage
+gitops_url: https://github.com/wtam2018/gitops.git
+version: 1

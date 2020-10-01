@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/name: commit-status-tracker
+    app.kubernetes.io/part-of: commit-status-tracker-operator
+  name: commit-status-tracker
+  namespace: cicd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: commit-status-tracker
+      app.kubernetes.io/part-of: commit-status-tracker-operator
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/name: commit-status-tracker
+        app.kubernetes.io/part-of: commit-status-tracker-operator
+    spec:
+      containers:
+      - command:
+        - commit-status-tracker
+        env:
+        - name: WATCH_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: OPERATOR_NAME
+          value: commit-status-tracker
+        - name: STATUS_TRACKER_SECRET
+          value: git-host-access-token
+        image: quay.io/redhat-developer/commit-status-tracker:v0.0.4
+        imagePullPolicy: Always
+        name: commit-status-tracker
+        resources: {}
+      serviceAccountName: commit-status-tracker
+status: {}
