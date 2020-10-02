@@ -36,7 +36,7 @@ spec:
   project: default
   source:
     path: config/argocd
-    repoURL: https://github.com/wtam2018/gitops.git
+    repoURL: https://github.com/<your organization>/gitops.git
   syncPolicy:
     automated:
       prune: true

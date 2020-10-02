@@ -26,7 +26,7 @@ environments:
           bindings:
           - dev-app-taxi-taxi-binding
           - github-push-binding
-      source_url: https://github.com/wtam2018/taxi.git
+      source_url: https://github.com/<your organization>/taxi.git
       webhook:
         secret:
           name: webhook-secret-dev-taxi
@@ -41,7 +41,7 @@ environments:
   - name: app-bus
     services:
     - name: bus
-      source_url: http://github.com/wtam2018/bus.git
+      source_url: http://github.com/<your organization>/bus.git
       webhook:
         secret:
           name: webhook-secret-new-env-bus
@@ -53,7 +53,7 @@ environments:
       - github-push-binding
       template: app-ci-template
 - name: stage
-gitops_url: https://github.com/wtam2018/gitops.git
+gitops_url: https://github.com/<your organization>/gitops.git
 version: 1
 ```
 
@@ -74,12 +74,12 @@ The pipelines.yaml is a representation of the current directory structure, it th
 │       ├── base
 │       │   ├── 01-namespaces
 │       │   │   ├── cicd-environment.yaml
-│       │   │   └── wtam.yaml
+│       │   │   └── <project>.yaml
 │       │   ├── 02-rolebindings
 │       │   │   ├── commit-status-tracker-rolebinding.yaml
 │       │   │   ├── commit-status-tracker-role.yaml
 │       │   │   ├── commit-status-tracker-service-account.yaml
-│       │   │   ├── internal-registry-wtam-binding.yaml
+│       │   │   ├── internal-registry-<project>-binding.yaml
 │       │   │   ├── pipeline-service-account.yaml
 │       │   │   ├── pipeline-service-rolebinding.yaml
 │       │   │   └── pipeline-service-role.yaml

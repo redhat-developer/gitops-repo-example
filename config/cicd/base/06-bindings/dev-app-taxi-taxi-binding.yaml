@@ -7,7 +7,7 @@ metadata:
 spec:
   params:
   - name: imageRepo
-    value: image-registry.openshift-image-registry.svc:5000/wtam/taxi
+    value: image-registry.openshift-image-registry.svc:5000/<project>/taxi
   - name: tlsVerify
     value: "false"
 status: {}

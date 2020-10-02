@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
   annotations:
-    app.openshift.io/vcs-uri: https://github.com/wtam2018/gitops.git
+    app.openshift.io/vcs-uri: https://github.com/<your organization>/gitops.git
   creationTimestamp: null
   name: dev
 spec: {}

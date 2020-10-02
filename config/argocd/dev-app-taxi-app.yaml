@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     path: environments/dev/apps/app-taxi/base
-    repoURL: https://github.com/wtam2018/gitops.git
+    repoURL: https://github.com/<your organization>/gitops.git
   syncPolicy:
     automated:
       prune: true

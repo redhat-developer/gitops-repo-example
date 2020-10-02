@@ -16,7 +16,7 @@ spec:
           secretKey: webhook-secret-key
           secretName: gitops-webhook-secret
     - cel:
-        filter: (header.match('X-GitHub-Event', 'push') && body.repository.full_name == 'wtam2018/gitops')
+        filter: (header.match('X-GitHub-Event', 'push') && body.repository.full_name == '<your organization>/gitops')
         overlays:
         - expression: split(body.ref,'/')[2]
           key: ref
@@ -33,7 +33,7 @@ spec:
           secretKey: webhook-secret-key
           secretName: webhook-secret-dev-taxi
     - cel:
-        filter: (header.match('X-GitHub-Event', 'push') && body.repository.full_name == 'wtam2018/taxi')
+        filter: (header.match('X-GitHub-Event', 'push') && body.repository.full_name == '<your organization>/taxi')
         overlays:
         - expression: split(body.ref,'/')[2]
           key: ref
@@ -49,7 +49,7 @@ spec:
           secretKey: webhook-secret-key
           secretName: webhook-secret-new-env-bus
     - cel:
-        filter: (header.match('X-GitHub-Event', 'push') && body.repository.full_name == 'wtam2018/bus')
+        filter: (header.match('X-GitHub-Event', 'push') && body.repository.full_name == '<your organization>/bus')
         overlays:
         - expression: split(body.ref,'/')[2]
           key: ref
