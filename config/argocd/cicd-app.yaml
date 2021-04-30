@@ -3,7 +3,7 @@ kind: Application
 metadata:
   creationTimestamp: null
   name: cicd-app
-  namespace: argocd
+  namespace: openshift-gitops
 spec:
   destination:
     namespace: cicd

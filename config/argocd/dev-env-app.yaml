@@ -2,15 +2,15 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   creationTimestamp: null
-  name: new-env-app-bus
-  namespace: argocd
+  name: dev-env
+  namespace: openshift-gitops
 spec:
   destination:
-    namespace: new-env
+    namespace: dev
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: environments/new-env/apps/app-bus/base
+    path: environments/dev/env/overlays
     repoURL: https://github.com/<your organization>/gitops.git
   syncPolicy:
     automated:

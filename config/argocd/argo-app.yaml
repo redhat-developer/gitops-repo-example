@@ -3,10 +3,10 @@ kind: Application
 metadata:
   creationTimestamp: null
   name: argo-app
-  namespace: argocd
+  namespace: openshift-gitops
 spec:
   destination:
-    namespace: argocd
+    namespace: openshift-gitops
     server: https://kubernetes.default.svc
   ignoreDifferences:
   - group: argoproj.io

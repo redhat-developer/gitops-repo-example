@@ -5,53 +5,54 @@ metadata:
   name: cicd-event-listener
   namespace: cicd
 spec:
+  namespaceSelector: {}
+  podTemplate: {}
+  resources: {}
   serviceAccountName: pipeline
   triggers:
   - bindings:
-    - name: github-push-binding
+    - ref: github-push-binding
     interceptors:
     - github:
         secretRef:
-          namespace: cicd
           secretKey: webhook-secret-key
           secretName: gitops-webhook-secret
     - cel:
         filter: (header.match('X-GitHub-Event', 'push') && body.repository.full_name == '<your organization>/gitops')
         overlays:
-        - expression: split(body.ref,'/')[2]
+        - expression: body.ref.split('/')[2]
           key: ref
     name: ci-dryrun-from-push
     template:
       name: ci-dryrun-from-push-template
   - bindings:
-    - name: dev-app-taxi-taxi-binding
-    - name: github-push-binding
+    - ref: dev-app-taxi-taxi-binding
+    - ref: github-push-binding
     interceptors:
     - github:
         secretRef:
-          namespace: cicd
           secretKey: webhook-secret-key
           secretName: webhook-secret-dev-taxi
     - cel:
         filter: (header.match('X-GitHub-Event', 'push') && body.repository.full_name == '<your organization>/taxi')
         overlays:
-        - expression: split(body.ref,'/')[2]
+        - expression: body.ref.split('/')[2]
           key: ref
     name: app-ci-build-from-push-taxi
     template:
       name: app-ci-template
   - bindings:
-    - name: github-push-binding
+    - ref: stage-app-bus-bus-binding
+    - ref: github-push-binding
     interceptors:
     - github:
         secretRef:
-          namespace: cicd
           secretKey: webhook-secret-key
-          secretName: webhook-secret-new-env-bus
+          secretName: webhook-secret-stage-bus
     - cel:
         filter: (header.match('X-GitHub-Event', 'push') && body.repository.full_name == '<your organization>/bus')
         overlays:
-        - expression: split(body.ref,'/')[2]
+        - expression: body.ref.split('/')[2]
           key: ref
     name: app-ci-build-from-push-bus
     template:

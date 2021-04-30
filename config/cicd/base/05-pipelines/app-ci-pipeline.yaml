@@ -14,6 +14,8 @@ spec:
     type: string
   - name: BUILD_EXTRA_ARGS
     type: string
+  - name: IMAGE
+    type: string
   - name: GIT_REF
     type: string
   - name: COMMIT_DATE
@@ -24,25 +26,35 @@ spec:
     type: string
   - name: GIT_REPO
     type: string
-  resources:
-  - name: source-repo
-    type: git
-  - name: runtime-image
-    type: image
   tasks:
+  - name: clone-source
+    params:
+    - name: url
+      value: $(params.GIT_REPO)
+    - name: revision
+      value: $(params.GIT_REF)
+    taskRef:
+      kind: ClusterTask
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: shared-data
   - name: build-image
     params:
     - name: TLSVERIFY
       value: $(params.TLSVERIFY)
     - name: BUILD_EXTRA_ARGS
       value: --label=io.openshift.build.commit.author='$(params.COMMIT_AUTHOR)' --label=io.openshift.build.commit.date='$(params.COMMIT_DATE)' --label=io.openshift.build.commit.id='$(params.COMMIT_SHA)' --label=io.openshift.build.commit.message='$(params.COMMIT_MESSAGE)' --label=io.openshift.build.commit.ref='$(params.GIT_REF)'
-    resources:
-      inputs:
-      - name: source
-        resource: source-repo
-      outputs:
-      - name: image
-        resource: runtime-image
+    - name: IMAGE
+      value: $(params.IMAGE)
+    runAfter:
+    - clone-source
     taskRef:
       kind: ClusterTask
       name: buildah
+    workspaces:
+    - name: source
+      workspace: shared-data
+  workspaces:
+  - description: This workspace will receive the cloned git repo.
+    name: shared-data

@@ -13,7 +13,7 @@ This repository cannot be applied to the cluster since the sealed secrets are en
 ```yaml
 config:
   argocd:
-    namespace: argocd
+    namespace: openshift-gitops
   pipelines:
     name: cicd
 environments:
@@ -41,18 +41,22 @@ environments:
   - name: app-bus
     services:
     - name: bus
-      source_url: http://github.com/<your organization>/bus.git
+      pipelines:
+        integration:
+          bindings:
+          - stage-app-bus-bus-binding
+          - github-push-binding
+      source_url: https://github.com/<your organization>/bus.git
       webhook:
         secret:
-          name: webhook-secret-new-env-bus
+          name: webhook-secret-stage-bus
           namespace: cicd
-  name: new-env
+  name: stage
   pipelines:
     integration:
       bindings:
       - github-push-binding
       template: app-ci-template
-- name: stage
 gitops_url: https://github.com/<your organization>/gitops.git
 version: 1
 ```
@@ -65,31 +69,29 @@ The pipelines.yaml is a representation of the current directory structure, it th
 ├── config
 │   ├── argocd
 │   │   ├── argo-app.yaml
-│   │   ├── argocd.yaml
 │   │   ├── cicd-app.yaml
 │   │   ├── dev-app-taxi-app.yaml
+│   │   ├── dev-env-app.yaml
 │   │   ├── kustomization.yaml
-│   │   └── new-env-app-bus-app.yaml
+│   │   ├── stage-app-bus-app.yaml
+│   │   └── stage-env-app.yaml
 │   └── cicd
 │       ├── base
 │       │   ├── 01-namespaces
-│       │   │   ├── cicd-environment.yaml
-│       │   │   └── <project>.yaml
+│       │   │   └── cicd-environment.yaml
 │       │   ├── 02-rolebindings
-│       │   │   ├── commit-status-tracker-rolebinding.yaml
-│       │   │   ├── commit-status-tracker-role.yaml
-│       │   │   ├── commit-status-tracker-service-account.yaml
-│       │   │   ├── internal-registry-<project>-binding.yaml
+│       │   │   ├── argocd-admin.yaml
+│       │   │   ├── internal-registry-cicd-binding.yaml
 │       │   │   ├── pipeline-service-account.yaml
 │       │   │   ├── pipeline-service-rolebinding.yaml
-│       │   │   └── pipeline-service-role.yaml
+│       │   │   ├── pipeline-service-role.yaml
+│       │   │   └── sealed-secrets-aggregate-to-admin.yaml
 │       │   ├── 03-secrets
 │       │   │   ├── docker-config.yaml
-│       │   │   ├── git-host-access-token.yaml
 │       │   │   ├── git-host-basic-auth-token.yaml
 │       │   │   ├── gitops-webhook-secret.yaml
 │       │   │   ├── webhook-secret-dev-taxi.yaml
-│       │   │   └── webhook-secret-new-env-bus.yaml
+│       │   │   └── webhook-secret-stage-bus.yaml
 │       │   ├── 04-tasks
 │       │   │   └── deploy-from-source-task.yaml
 │       │   ├── 05-pipelines
@@ -97,7 +99,8 @@ The pipelines.yaml is a representation of the current directory structure, it th
 │       │   │   └── ci-dryrun-from-push-pipeline.yaml
 │       │   ├── 06-bindings
 │       │   │   ├── dev-app-taxi-taxi-binding.yaml
-│       │   │   └── github-push-binding.yaml
+│       │   │   ├── github-push-binding.yaml
+│       │   │   └── stage-app-bus-bus-binding.yaml
 │       │   ├── 07-templates
 │       │   │   ├── app-ci-build-from-push-template.yaml
 │       │   │   └── ci-dryrun-from-push-template.yaml
@@ -105,8 +108,6 @@ The pipelines.yaml is a representation of the current directory structure, it th
 │       │   │   └── cicd-event-listener.yaml
 │       │   ├── 09-routes
 │       │   │   └── gitops-webhook-event-listener.yaml
-│       │   ├── 10-commit-status-tracker
-│       │   │   └── operator.yaml
 │       │   └── kustomization.yaml
 │       └── overlays
 │           └── kustomization.yaml
@@ -125,6 +126,7 @@ The pipelines.yaml is a representation of the current directory structure, it th
 │   │   │               │   ├── config
 │   │   │               │   │   ├── 100-deployment.yaml
 │   │   │               │   │   ├── 200-service.yaml
+│   │   │               │   │   ├── 300-route.yaml
 │   │   │               │   │   └── kustomization.yaml
 │   │   │               │   └── kustomization.yaml
 │   │   │               ├── kustomization.yaml
@@ -132,44 +134,35 @@ The pipelines.yaml is a representation of the current directory structure, it th
 │   │   │                   └── kustomization.yaml
 │   │   └── env
 │   │       ├── base
+│   │       │   ├── argocd-admin.yaml
 │   │       │   ├── dev-environment.yaml
 │   │       │   ├── dev-rolebinding.yaml
 │   │       │   └── kustomization.yaml
 │   │       └── overlays
 │   │           └── kustomization.yaml
-│   ├── new-env
-│   │   ├── apps
-│   │   │   └── app-bus
-│   │   │       ├── base
-│   │   │       │   └── kustomization.yaml
-│   │   │       ├── kustomization.yaml
-│   │   │       ├── overlays
-│   │   │       │   └── kustomization.yaml
-│   │   │       └── services
-│   │   │           └── bus
-│   │   │               ├── base
-│   │   │               │   ├── config
-│   │   │               │   │   ├── 100-deployment.yaml
-│   │   │               │   │   ├── 200-service.yaml
-│   │   │               │   │   └── kustomization.yaml
-│   │   │               │   └── kustomization.yaml
-│   │   │               ├── kustomization.yaml
-│   │   │               └── overlays
-│   │   │                   └── kustomization.yaml
-│   │   └── env
-│   │       ├── base
-│   │       │   ├── kustomization.yaml
-│   │       │   ├── new-env-environment.yaml
-│   │       │   └── new-env-rolebinding.yaml
-│   │       └── overlays
-│   │           └── kustomization.yaml
 │   └── stage
+│       ├── apps
+│       │   └── app-bus
+│       │       ├── base
+│       │       │   └── kustomization.yaml
+│       │       ├── kustomization.yaml
+│       │       ├── overlays
+│       │       │   └── kustomization.yaml
+│       │       └── services
+│       │           └── bus
+│       │               ├── base
+│       │               │   ├── config
+│       │               │   └── kustomization.yaml
+│       │               ├── kustomization.yaml
+│       │               └── overlays
+│       │                   └── kustomization.yaml
 │       └── env
 │           ├── base
+│           │   ├── argocd-admin.yaml
 │           │   ├── kustomization.yaml
-│           │   └── stage-environment.yaml
+│           │   ├── stage-environment.yaml
+│           │   └── stage-rolebinding.yaml
 │           └── overlays
 │               └── kustomization.yaml
-├── pipelines.yaml
-└── README.md
+└── pipelines.yaml
 ```

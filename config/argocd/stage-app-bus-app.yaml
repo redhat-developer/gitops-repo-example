@@ -3,16 +3,16 @@ kind: Application
 metadata:
   creationTimestamp: null
   labels:
-    app.kubernetes.io/name: app-taxi
-  name: dev-app-taxi
+    app.kubernetes.io/name: app-bus
+  name: stage-app-bus
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: dev
+    namespace: stage
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: environments/dev/apps/app-taxi/overlays
+    path: environments/stage/apps/app-bus/overlays
     repoURL: https://github.com/<your organization>/gitops.git
   syncPolicy:
     automated:

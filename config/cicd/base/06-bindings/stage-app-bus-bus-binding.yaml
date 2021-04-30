@@ -2,12 +2,12 @@ apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerBinding
 metadata:
   creationTimestamp: null
-  name: dev-app-taxi-taxi-binding
+  name: stage-app-bus-bus-binding
   namespace: cicd
 spec:
   params:
   - name: imageRepo
-    value: image-registry.openshift-image-registry.svc:5000/cicd/taxi
+    value: image-registry.openshift-image-registry.svc:5000/cicd/bus
   - name: tlsVerify
     value: "false"
 status: {}

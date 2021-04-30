@@ -1,3 +1,4 @@
 resources:
+- argocd-admin.yaml
 - dev-environment.yaml
 - dev-rolebinding.yaml

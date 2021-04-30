@@ -24,51 +24,50 @@ spec:
     name: imageRepo
   - description: Enable image repository TLS certification verification.
     name: tlsVerify
+  - description: Extra parameters passed for the push command when pushing images.
+    name: build_extra_args
   resourcetemplates:
   - apiVersion: tekton.dev/v1beta1
     kind: PipelineRun
     metadata:
-      annotations:
-        tekton.dev/git-status: "true"
-        tekton.dev/status-context: dev-ci-build-from-pr
-        tekton.dev/status-description: CI build on push event
       creationTimestamp: null
       name: app-ci-pipeline-run-$(uid)
     spec:
       params:
       - name: REPO
-        value: $(params.fullname)
+        value: $(tt.params.fullname)
       - name: GIT_REPO
-        value: $(params.gitrepositoryurl)
+        value: $(tt.params.gitrepositoryurl)
       - name: TLSVERIFY
-        value: $(params.tlsVerify)
+        value: $(tt.params.tlsVerify)
+      - name: BUILD_EXTRA_ARGS
+        value: $(tt.params.build_extra_args)
+      - name: IMAGE
+        value: $(tt.params.imageRepo):$(tt.params.io.openshift.build.commit.ref)-$(tt.params.io.openshift.build.commit.id)
       - name: COMMIT_SHA
-        value: $(params.io.openshift.build.commit.id)
+        value: $(tt.params.io.openshift.build.commit.id)
       - name: GIT_REF
-        value: $(params.io.openshift.build.commit.ref)
+        value: $(tt.params.io.openshift.build.commit.ref)
       - name: COMMIT_DATE
-        value: $(params.io.openshift.build.commit.date)
+        value: $(tt.params.io.openshift.build.commit.date)
       - name: COMMIT_AUTHOR
-        value: $(params.io.openshift.build.commit.author)
+        value: $(tt.params.io.openshift.build.commit.author)
       - name: COMMIT_MESSAGE
-        value: $(params.io.openshift.build.commit.message)
+        value: $(tt.params.io.openshift.build.commit.message)
       pipelineRef:
         name: app-ci-pipeline
-      resources:
-      - name: source-repo
-        resourceSpec:
-          params:
-          - name: revision
-            value: $(params.io.openshift.build.commit.id)
-          - name: url
-            value: $(params.gitrepositoryurl)
-          type: git
-      - name: runtime-image
-        resourceSpec:
-          params:
-          - name: url
-            value: $(params.imageRepo):$(params.io.openshift.build.commit.ref)-$(params.io.openshift.build.commit.id)
-          type: image
       serviceAccountName: pipeline
+      workspaces:
+      - name: shared-data
+        volumeClaimTemplate:
+          metadata:
+            creationTimestamp: null
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+          status: {}
     status: {}
 status: {}

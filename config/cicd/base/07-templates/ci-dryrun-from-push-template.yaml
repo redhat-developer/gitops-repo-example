@@ -17,10 +17,6 @@ spec:
   - apiVersion: tekton.dev/v1beta1
     kind: PipelineRun
     metadata:
-      annotations:
-        tekton.dev/git-status: "true"
-        tekton.dev/status-context: ci-dryrun-from-push-pipeline
-        tekton.dev/status-description: CI dry run on push event
       creationTimestamp: null
       name: ci-dryrun-from-push-pipeline-$(uid)
     spec:
@@ -31,9 +27,9 @@ spec:
         resourceSpec:
           params:
           - name: revision
-            value: $(params.io.openshift.build.commit.id)
+            value: $(tt.params.io.openshift.build.commit.id)
           - name: url
-            value: $(params.gitrepositoryurl)
+            value: $(tt.params.gitrepositoryurl)
           type: git
       serviceAccountName: pipeline
     status: {}
